@@ -5,9 +5,10 @@
 		}
 	],
 	"settings": {
-		"editor.codeActionsOnSave": {
-			"source.fixAll.eslint": true
-		},
+		"editor.codeActionsOnSave": [
+			"source.formatDocument",
+			"source.fixAll.eslint"
+		],
 		"eslint.validate": [
 			"typescript"
 		]

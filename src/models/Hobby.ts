@@ -1,23 +1,24 @@
 import {
-  BelongsTo,
-  Column,
-  ForeignKey,
-  Table,
-  Model,
+    BelongsTo,
+    Column,
+    ForeignKey,
+    Table,
+    Model,
 } from "sequelize-typescript";
 import { User } from "./User";
 
 @Table({
-  tableName: "Hobbies",
+    tableName: "Hobbies",
+    timestamps: true,
 })
-export default class Hobby extends Model {
-  @Column
-  name!: string;
+export class Hobby extends Model<Hobby> {
+    @Column
+    name!: string;
 
-  @ForeignKey(() => User)
-  @Column
-  UserId?: number;
+    @ForeignKey(() => User)
+    @Column
+    UserId?: number;
 
-  @BelongsTo(() => User)
-  user!: User;
+    @BelongsTo(() => User, { foreignKey: "UserId" })
+    user!: User;
 }
