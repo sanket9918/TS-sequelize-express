@@ -4,6 +4,8 @@ import {
     ForeignKey,
     Table,
     Model,
+    DataType,
+    PrimaryKey,
 } from "sequelize-typescript";
 import { User } from "./User";
 
@@ -12,12 +14,22 @@ import { User } from "./User";
     timestamps: true,
 })
 export class Hobby extends Model<Hobby> {
+    @PrimaryKey
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        primaryKey: true,
+    })
+    id!: string;
+
     @Column
     name!: string;
 
     @ForeignKey(() => User)
-    @Column
-    UserId?: number;
+    @Column({
+        type: DataType.UUID,
+    })
+    UserId!: string;
 
     @BelongsTo(() => User, { foreignKey: "UserId" })
     user!: User;

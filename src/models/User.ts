@@ -1,4 +1,11 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import {
+    Column,
+    DataType,
+    HasMany,
+    Model,
+    PrimaryKey,
+    Table,
+} from "sequelize-typescript";
 import { Hobby } from "./Hobby";
 
 @Table({
@@ -6,6 +13,14 @@ import { Hobby } from "./Hobby";
     tableName: "Users",
 })
 export class User extends Model<User> {
+    @PrimaryKey
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        primaryKey: true,
+    })
+    id!: string;
+
     @Column({
         type: DataType.STRING,
     })
