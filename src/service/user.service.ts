@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import Logger from "../logger/winston";
 import { Hobby } from "../models/Hobby";
 import { User } from "../models/User";
 
@@ -11,9 +12,10 @@ export const getUsers: RequestHandler = async (req, res) => {
                 },
             ],
         });
+        Logger.info("Details of all users fetched");
         res.status(200).send(users);
     } catch (error) {
-        console.error(error);
+        Logger.error(error);
         res.status(500).send(error);
     }
 };
@@ -35,7 +37,7 @@ export const getASingleUser: RequestHandler = async (req, res) => {
         }
         res.status(404).send({ error: "No such user found" });
     } catch (error) {
-        console.error(error);
+        Logger.error(error);
         res.status(500).send(error);
     }
 };
@@ -59,7 +61,7 @@ export const createUser: RequestHandler = async (req, res) => {
             res.status(400).send({ error: "User creation failed" });
         }
     } catch (error) {
-        console.error(error);
+        Logger.error(error);
         res.status(500).send(error);
     }
 };
@@ -78,7 +80,7 @@ export const updateUser: RequestHandler = async (req, res) => {
 
         res.status(200).send({ message: "User successfully updated " });
     } catch (error) {
-        console.error(error);
+        Logger.error(error);
         res.status(500).send(error);
     }
 };
@@ -100,7 +102,7 @@ export const deleteUser: RequestHandler = async (req, res) => {
             res.status(200).send({ message: "User successfully deleted " });
         }
     } catch (error) {
-        console.error(error);
+        Logger.error(error);
         res.status(500).send(error);
     }
 };
