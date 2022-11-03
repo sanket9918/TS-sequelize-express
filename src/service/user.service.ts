@@ -4,8 +4,19 @@ import { Hobby } from "../models/Hobby";
 import { User } from "../models/User";
 
 export const getUsers: RequestHandler = async (req, res) => {
+    const { page } = req.query;
+
+    let pageQuery = page as unknown as number;
+
+    if (pageQuery === 0) {
+        pageQuery = 1;
+    }
+    const limit = 5;
+    const skip = (pageQuery - 1) * limit;
     try {
         const users = await User.findAll({
+            offset: skip,
+            limit,
             include: [
                 {
                     model: Hobby,
@@ -34,8 +45,9 @@ export const getASingleUser: RequestHandler = async (req, res) => {
         });
         if (user) {
             res.status(200).send(user);
+        } else {
+            res.status(404).send({ error: "No such user found" });
         }
-        res.status(404).send({ error: "No such user found" });
     } catch (error) {
         Logger.error(error);
         res.status(500).send(error);

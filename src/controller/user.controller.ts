@@ -11,6 +11,6 @@ export const users = Router();
 
 users.get("/", getUsers);
 users.post("/", createUser);
-users.get("/:id", getASingleUser);
+users.get("/profile/:id", getASingleUser);
 users.put("/:id", updateUser);
 users.delete("/:id", deleteUser);
