@@ -1,15 +1,12 @@
 import { Partitioners } from "kafkajs";
+import { User } from "../models/User";
 import { kafka } from "../util/kafka.connector";
 
-interface IInputValue {
-    name: string;
-    age: number;
-}
 const producer = kafka.producer({
     createPartitioner: Partitioners.DefaultPartitioner,
 });
 
-async function initiateProducer(inputValue: IInputValue) {
+async function initiateProducer(inputValue: User) {
     await producer.connect();
     await producer.send({
         topic: process.env.KAFKA_TOPIC as string,
