@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { initiateProducer } from "../kafka/kafka.producer";
 import Logger from "../logger/winston";
 import { Hobby } from "../models/Hobby";
 import { User } from "../models/User";
@@ -54,6 +55,20 @@ export const getASingleUser: RequestHandler = async (req, res) => {
     }
 };
 
+export const eventBasedCreateUser = async (newUser: User) => {
+    try {
+        await User.create(newUser, {
+            include: [
+                {
+                    model: Hobby,
+                },
+            ],
+        });
+    } catch (error) {
+        Logger.error(error);
+    }
+};
+
 export const createUser: RequestHandler = async (req, res) => {
     const newUser = req.body;
     if (!newUser) {
@@ -75,6 +90,21 @@ export const createUser: RequestHandler = async (req, res) => {
     } catch (error) {
         Logger.error(error);
         res.status(500).send(error);
+    }
+};
+
+export const createUsingKafka: RequestHandler = async (req, res) => {
+    const newReq = req.body;
+    if (!newReq) {
+        res.status(500).send({ error: "Request body is empty" });
+    }
+
+    try {
+        await initiateProducer(newReq);
+        res.status(200).send({ message: "Message sent" });
+        // Logger.info(newInstance);
+    } catch (error) {
+        Logger.error(error);
     }
 };
 
