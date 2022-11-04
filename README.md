@@ -8,7 +8,7 @@ This particular branch of the project is having an implementation of Kafka. This
 
 ### To run Postgres (Docker)
 ```sh
-docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres --name=postgres -it -d --rm  postgres
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=boilerplate --name=postgres -it -d --rm  postgres
 ```
 
 ### To run the Kafka instance 

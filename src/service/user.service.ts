@@ -64,6 +64,7 @@ export const eventBasedCreateUser = async (newUser: User) => {
                 },
             ],
         });
+        Logger.info("User created successfully using Kafka payload");
     } catch (error) {
         Logger.error(error);
     }
