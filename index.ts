@@ -7,7 +7,7 @@ import connection from "./src/db/connection";
 import { initiateKafkaConsumer } from "./src/kafka/kafka.consumer";
 import morganMiddleware from "./src/logger/morgan";
 import Logger from "./src/logger/winston";
-
+import { config } from "./src/config/config.validator";
 const app = express();
 app.use(compression);
 
