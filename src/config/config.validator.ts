@@ -3,7 +3,7 @@ import joi from "joi";
 const configValidation = joi
     .object()
     .keys({
-        SEQUELIZE_DB_HOST: joi.string().valid("localhost").required(),
+        SEQUELIZE_DB_HOST: joi.string().required(),
         SEQUELIZE_DB_USERNAME: joi.string().required(),
         SEQUELIZE_DB_PASSWORD: joi.string().required(),
         SEQUELIZE_DB_DATABASE: joi.string().required(),
