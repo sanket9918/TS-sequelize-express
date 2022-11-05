@@ -9,8 +9,8 @@ import morganMiddleware from "./src/logger/morgan";
 import Logger from "./src/logger/winston";
 import { config } from "./src/config/config.validator";
 const app = express();
-app.use(compression);
 
+app.use(compression());
 app.use(express.json());
 app.use(morganMiddleware);
 
@@ -22,7 +22,7 @@ const bootstrap = async (): Promise<void> => {
 
         await initiateKafkaConsumer();
 
-        app.listen(process.env.APPLICATION_PORT, () => {
+        app.listen(config.APPLICATION_PORT, () => {
             Logger.info("Server started on port 3000");
         });
     } catch (error) {
