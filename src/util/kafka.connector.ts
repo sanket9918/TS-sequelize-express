@@ -1,6 +1,7 @@
 import { Kafka } from "kafkajs";
+import { config } from "../config/config.validator";
 
 export const kafka = new Kafka({
-    clientId: process.env.KAFKA_CLIENT_ID,
-    brokers: [process.env.KAFKA_BROKER_1 as string],
+    clientId: config.KAFKA_CLIENT_ID,
+    brokers: [config.KAFKA_BROKER_1 as string],
 });
