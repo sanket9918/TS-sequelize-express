@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
-
+import compression from "compression";
 import express from "express";
 import { users } from "./src/controller/user.controller";
 import connection from "./src/db/connection";
@@ -9,6 +9,7 @@ import morganMiddleware from "./src/logger/morgan";
 import Logger from "./src/logger/winston";
 
 const app = express();
+app.use(compression);
 
 app.use(express.json());
 app.use(morganMiddleware);
