@@ -4,7 +4,7 @@ This repo can serve as a reference to initialize an Express + Sequelize + Postgr
 
 ### To run Postgres (Docker)
 ```sh
-docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres --name=postgres -it -d --rm  postgres
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=boilerplate --name=postgres -it -d --rm  postgres
 ```
 
 ### To setup env
