@@ -2,7 +2,7 @@
 
 This repo can serve as a reference to initialize an Express + Sequelize + Postgres (Typescript) Template.
 
-This particular branch of the project is having an implementation of Kafka. This implementation takes the same params of the create user but instead of user directly creating the user, the Kafka consumer creates the user by taking the data received via the topic (suscribed) and it is invoked using a Publisher.
+This particular branch of the project is having an implementation of Kafka. This implementation takes the same params of the create user but instead of user directly creating the user, the Kafka consumer creates the user by taking the data received via the topic (suscribed) and it is invoked using a Publisher. Also there is addition in this branch that the even the email being sent on the eventof new user creation is sent with Kafka (being used as a queue) to avoid the event of mail being lost in case of the high user load.
 
 ```/users/produce``` is the concerned route for this.
 
