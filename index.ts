@@ -8,6 +8,7 @@ import { initiateKafkaConsumer } from "./src/kafka/kafka.consumer";
 import morganMiddleware from "./src/logger/morgan";
 import Logger from "./src/logger/winston";
 import { config } from "./src/config/config.validator";
+import { initiateKafkaConsumerEmail } from "./src/kafka/email/kafka.email.consumer";
 const app = express();
 
 app.use(compression());
@@ -21,6 +22,7 @@ const bootstrap = async (): Promise<void> => {
         await connection.sync();
 
         await initiateKafkaConsumer();
+        await initiateKafkaConsumerEmail();
 
         app.listen(config.APPLICATION_PORT, () => {
             Logger.info("Server started on port 3000");

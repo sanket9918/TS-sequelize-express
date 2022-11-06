@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
+import { initiateProducerEmail } from "../kafka/email/kafka.email.producer";
 import { initiateProducer } from "../kafka/kafka.producer";
 import Logger from "../logger/winston";
 import { Hobby } from "../models/Hobby";
 import { User } from "../models/User";
-import { sendMail } from "../util/nodemailer";
 
 export const getUsers: RequestHandler = async (req, res) => {
     const { page } = req.query;
@@ -68,11 +68,12 @@ export const eventBasedCreateUser = async (newUser: User) => {
 
         Logger.info("User created successfully using Kafka payload");
         if (users) {
-            await sendMail(
-                users.email,
-                `Welcome ${users.name} to my-app`,
-                `Hey ${users.name} We are so excited to welcome you to our journey`,
-            );
+            const mailPayload = {
+                toMail: users.email,
+                subject: `Welcome ${users.name} to my app`,
+                message: `Hey ${users.name} We are so excited to welcome you to our journey`,
+            };
+            await initiateProducerEmail(mailPayload);
         }
     } catch (error) {
         Logger.error(error);
@@ -94,11 +95,13 @@ export const createUser: RequestHandler = async (req, res) => {
         });
         if (users) {
             res.status(200).send({ message: "Create user successful" });
-            await sendMail(
-                users.email,
-                `Welcome ${users.name} to my-app`,
-                `Hey ${users.name} We are so excited to welcome you to our journey`,
-            );
+
+            const mailPayload = {
+                toMail: users.email,
+                subject: `Welcome ${users.name} to my app`,
+                message: `Hey ${users.name} We are so excited to welcome you to our journey`,
+            };
+            await initiateProducerEmail(mailPayload);
         } else {
             res.status(400).send({ error: "User creation failed" });
         }

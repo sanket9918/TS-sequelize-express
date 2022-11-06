@@ -9,14 +9,18 @@ const producer = kafka.producer({
 
 async function initiateProducer(inputValue: User) {
     await producer.connect();
-    await producer.send({
-        topic: config.KAFKA_TOPIC as string,
-        messages: [
-            {
-                value: JSON.stringify(inputValue),
-            },
-        ],
-    });
+    await producer
+        .send({
+            topic: config.KAFKA_TOPIC as string,
+            messages: [
+                {
+                    value: JSON.stringify(inputValue),
+                },
+            ],
+        })
+        .then(() => {
+            return "OK";
+        });
     // await producer.disconnect();
 }
 
