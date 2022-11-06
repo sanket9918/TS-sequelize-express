@@ -3,6 +3,7 @@ import { initiateProducer } from "../kafka/kafka.producer";
 import Logger from "../logger/winston";
 import { Hobby } from "../models/Hobby";
 import { User } from "../models/User";
+import { sendMail } from "../util/nodemailer";
 
 export const getUsers: RequestHandler = async (req, res) => {
     const { page } = req.query;
@@ -57,14 +58,22 @@ export const getASingleUser: RequestHandler = async (req, res) => {
 
 export const eventBasedCreateUser = async (newUser: User) => {
     try {
-        await User.create(newUser, {
+        const users = await User.create(newUser, {
             include: [
                 {
                     model: Hobby,
                 },
             ],
         });
+
         Logger.info("User created successfully using Kafka payload");
+        if (users) {
+            await sendMail(
+                users.email,
+                `Welcome ${users.name} to my-app`,
+                `Hey ${users.name} We are so excited to welcome you to our journey`,
+            );
+        }
     } catch (error) {
         Logger.error(error);
     }
@@ -85,6 +94,11 @@ export const createUser: RequestHandler = async (req, res) => {
         });
         if (users) {
             res.status(200).send({ message: "Create user successful" });
+            await sendMail(
+                users.email,
+                `Welcome ${users.name} to my-app`,
+                `Hey ${users.name} We are so excited to welcome you to our journey`,
+            );
         } else {
             res.status(400).send({ error: "User creation failed" });
         }

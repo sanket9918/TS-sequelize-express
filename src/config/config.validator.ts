@@ -12,6 +12,8 @@ const configValidation = joi
         KAFKA_TOPIC: joi.string().required(),
         KAFKA_GROUP_ID: joi.string().required(),
         KAFKA_BROKER_1: joi.string().required(),
+        EMAIL_ID: joi.string().required(),
+        EMAIL_PASSWORD: joi.string().required(),
     })
     .unknown();
 
@@ -32,4 +34,6 @@ export const config = {
     KAFKA_TOPIC: envVariables.KAFKA_TOPIC,
     KAFKA_GROUP_ID: envVariables.KAFKA_GROUP_ID,
     KAFKA_BROKER_1: envVariables.KAFKA_BROKER_1,
+    EMAIL_ID: envVariables.EMAIL_ID,
+    EMAIL_PASSWORD: envVariables.EMAIL_PASSWORD,
 };
