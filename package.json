@@ -41,7 +41,10 @@
     },
     "scripts": {
         "prepare": "husky install",
-        "start": "ts-node-dev index.ts"
+        "start:dev": "ts-node-dev index.ts",
+        "start:": "node ./dist/index.js",
+        "build": "tsc",
+        "start:prod": "yarn build && NODE_ENV=production pm2 start ./dist/index.js"
     },
     "dependencies": {
         "compression": "^1.7.4",
