@@ -14,7 +14,20 @@ const sendMail = async (toMail: string, subject: string, message: string) => {
         from: config.EMAIL_ID,
         to: toMail,
         subject,
-        html: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        html: emailBody(message),
+    };
+
+    await mailTransporter.sendMail(mailOptions, (err) => {
+        if (err) {
+            Logger.error(err);
+        } else {
+            Logger.info("Mail sent");
+        }
+    });
+};
+
+function emailBody(message: string) {
+    return `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
 <!--[if gte mso 9]>
@@ -209,16 +222,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_heading_1 .
 </body>
 
 </html>
-`,
-    };
-
-    await mailTransporter.sendMail(mailOptions, (err) => {
-        if (err) {
-            Logger.error(err);
-        } else {
-            Logger.info("Mail sent");
-        }
-    });
-};
+`;
+}
 
 export { sendMail };
